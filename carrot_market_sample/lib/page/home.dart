@@ -1,8 +1,9 @@
 import 'package:carrot_market_sample/page/detail.dart';
 import 'package:carrot_market_sample/repository/contents_repository.dart';
+import 'package:carrot_market_sample/utils/data_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -26,15 +27,7 @@ class _HomeState extends State<Home> {
     currentLocation = 'ara';
   }
 
-  final oCcy = new NumberFormat('#,###', 'ko_KR');
-  String calcStringToWon(String priceString) {
-    if (priceString == "무료나눔") return priceString;
-    if (priceString != '') {
-      return '${oCcy.format(int.parse(priceString))}원';
-    } else {
-      return '- 원';
-    }
-  }
+  
 
   PreferredSizeWidget _appbarWidget() {
     return AppBar(
@@ -154,7 +147,7 @@ class _HomeState extends State<Home> {
                           height: 5,
                         ),
                         Text(
-                          calcStringToWon(datas[index]['price'] as String),
+                          DataUtils.calcStringToWon(datas[index]['price'] as String),
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
                         Expanded(
@@ -183,7 +176,7 @@ class _HomeState extends State<Home> {
           ),
         );
       },
-      separatorBuilder: (BuildContext _context, int index) {
+      separatorBuilder: (BuildContext context, int index) {
         return Container(
           height: 1,
           color: Colors.black.withOpacity(0.4),
@@ -193,7 +186,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget? _bodyWidget() {
+  Widget _bodyWidget() {
     return FutureBuilder(
       future: _loadContents(),
       builder: (context, dynamic snapshot) {

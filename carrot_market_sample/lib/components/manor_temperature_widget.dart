@@ -29,6 +29,7 @@ class ManorTemperature extends StatelessWidget {
     } else if (50 < manorTemp) {
       level = 5;
     }
+    
   }
 
   Widget _makeTempLabelAndBar() {

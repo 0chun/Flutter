@@ -21,7 +21,7 @@ class _AppState extends State<App> {
   }
  
 
-  Widget? _bodyWidget() {
+  Widget _bodyWidget() {
     switch (_currentPageIndex) {
       case 0:
         return Home();
@@ -40,6 +40,7 @@ class _AppState extends State<App> {
       default:
         return Container();
     } 
+    
 
   }
 
