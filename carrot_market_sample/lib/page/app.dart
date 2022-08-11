@@ -1,3 +1,4 @@
+import 'package:carrot_market_sample/page/favorite.dart';
 import 'package:carrot_market_sample/page/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,7 +36,7 @@ class _AppState extends State<App> {
         return Container();
       // break;
       case 4:
-        return Container();
+        return MyFavoriteContents();
         // break;
       default:
         return Container();
@@ -62,8 +63,11 @@ class _AppState extends State<App> {
         ),
       ),
       label: label,
+      
+      
     );
   }
+  
 
   Widget _bottomNavigationBarWidget() {
     return BottomNavigationBar(

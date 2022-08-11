@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:carrot_market_sample/components/manor_temperature_widget.dart';
+import 'package:carrot_market_sample/repository/contents_repository.dart';
 import 'package:carrot_market_sample/utils/data_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,10 +23,14 @@ class _DetailContentViewState extends State<DetailContentView>
   ScrollController controller = ScrollController();
   late AnimationController _animationController;
   late Animation _colorTween;
+  late bool isMyFavoriteContent = false;
+  late ContentsRepository contentsRepository;
 
   @override
   void initState() {
     super.initState();
+    isMyFavoriteContent = false;
+    contentsRepository = ContentsRepository();
     _animationController = AnimationController(vsync: this);
     _colorTween = ColorTween(begin: Colors.white, end: Colors.black)
         .animate(_animationController);
@@ -38,6 +43,15 @@ class _DetailContentViewState extends State<DetailContentView>
         }
         _animationController.value = scrollpositionToAlpha / 255;
       });
+    });
+    _loadMyFavoriteContentState();
+  }
+
+  _loadMyFavoriteContentState() async {
+    bool ck = await contentsRepository
+        .isMyFavoriteContents(widget.data["cid"] as String);
+    setState(() {
+      isMyFavoriteContent = ck;
     });
   }
 
@@ -306,13 +320,28 @@ class _DetailContentViewState extends State<DetailContentView>
       child: Row(
         children: [
           GestureDetector(
-            onTap: () {
-              print('관심상품 이벤트 발생');
+            onTap: () async{
+              if (isMyFavoriteContent) {
+                await contentsRepository.deleteMyFavoriteContent(widget.data['cid'] as String) ;
+              } else {
+                await contentsRepository.addMyFavoriteContent(widget.data);
+              }
+              setState(() {
+                isMyFavoriteContent = !isMyFavoriteContent;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                    isMyFavoriteContent ? "관심목록에 추가됐어요." : "관심목록에서 제거됐어요."),
+                duration: const Duration(milliseconds: 1000),
+              ));
             },
             child: SvgPicture.asset(
-              'assets/svg/heart_off.svg',
+              isMyFavoriteContent
+                  ? "assets/svg/heart_on.svg"
+                  : "assets/svg/heart_off.svg",
               width: 25,
               height: 25,
+              color: Color(0xfff08f4f),
             ),
           ),
           Container(
