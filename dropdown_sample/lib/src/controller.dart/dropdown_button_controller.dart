@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/state_manager.dart';
 
 enum DropDownMenu { DEFAULT, MENI1, MENU2 }
@@ -18,10 +19,21 @@ extension DronDownMenuExtension on DropDownMenu {
 class DropdownButtonController extends GetxController {
   Rx<DropDownMenu> currentItem = DropDownMenu.DEFAULT.obs;
 
+  final dropKey = GlobalKey();
+
   void changeDropDownMenu(int? itemIndex) {
     // var selectedItem =
     //     DropDownMenu.values.where((menu) => menu.index == itemIndex).first;
-     var selectedItem =   DropDownMenu.values.elementAt(itemIndex!);
+    var selectedItem = DropDownMenu.values.elementAt(itemIndex!);
     currentItem(selectedItem);
+  }
+
+  double get dropdownPositionY {
+    var box = dropKey.currentContext!.findRenderObject()!;
+    var translation = box.getTransformTo(null).getTranslation();
+    return box.paintBounds
+        .shift(Offset(translation.x, translation.y))
+        .bottomCenter
+        .dy;
   }
 }

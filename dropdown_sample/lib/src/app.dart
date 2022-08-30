@@ -1,3 +1,4 @@
+import 'package:dropdown_sample/src/components/custom_dropdowm_button.dart';
 import 'package:dropdown_sample/src/components/dropdown_button.dart';
 import 'package:dropdown_sample/src/components/popup_menu_button.dart';
 import 'package:dropdown_sample/src/controller.dart/dropdown_button_controller.dart';
@@ -17,7 +18,8 @@ class App extends GetView<DropdownButtonController> {
       body: Column(
         children: [
           //DropdownButtonWidget(),
-          PopupMenuButtonWidget(),
+          // PopupMenuButtonWidget(),
+          CustomDropDowmButton(key: controller.dropKey,),
           Expanded(
             child: Center(
               child: Obx(
