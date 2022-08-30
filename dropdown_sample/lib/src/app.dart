@@ -15,7 +15,7 @@ class App extends GetView<DropdownButtonController> {
       ),
       body: Column(
         children: [
-          DropdownButtonWidget(),
+          //DropdownButtonWidget(),
           Expanded(
             child: Center(
               child: Obx(
